@@ -19,7 +19,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         def repoBranch = checkout(scm).GIT_BRANCH
         sh """
           echo 'Git Branch : ${repoBranch}' 
-          repoName=`echo ${repoUrl} | sed -E $(s|.*/(.*)(.git)|\1|')`
+          repoName=`echo ${repoUrl} | sed -E 's|.*/(.*)(.git)|\1|'`
           if [[ aws s3 ls | grep $repoName  ]]
             then 
               aws s3 sync . s3://$repoName --recursive --delete
