@@ -15,8 +15,11 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
   node('pod-label-cluster1') {
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
+        def repName = checkout(scm).repoName
+        sh "echo 'Repository Name is: ${repName}'"
+        println repName
         sh """
-            aws ec2 create-key-pair --key-name sam12
+            #aws ec2 create-key-pair --key-name sam12
         """
         }
     }
