@@ -26,6 +26,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
               echo "Finished creation of the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             else
               aws s3 mb s3://${repoName}-${repoBranch}
+              aws s3 cp . s3://${repoName}-${repoBranch} --recursive
               echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             fi
         """
