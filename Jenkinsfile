@@ -16,7 +16,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
         def GitBranch = checkout(scm).GIT_BRANCH
-        def repoName = GitBranch.substring(0, slug.lastIndexOf('/'))
+        def repoName = GitBranch.substring(0, GitBranch.lastIndexOf('/'))
         def repoBranch = GitBranch.tokenize('/')[0]
         
         sh "echo ${repoName} ${repoBranch}"
