@@ -39,7 +39,6 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
                 echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             fi
         '''
-        }
       }
     }
   }
