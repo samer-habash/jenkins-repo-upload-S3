@@ -20,9 +20,9 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         def repoName = GitBranch.substring(0, GitBranch.lastIndexOf('/')).toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
         def repoBranch = GitBranch.tokenize('/')[1].toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
         
-        sh """
+        sh(returnStdout: true, script: '''
             #!/bin/bash -xe
-            if [[ -z \$(aws s3 ls | grep ${repoName}) ]]
+            if [[ -z $(aws s3 ls | grep ${repoName}) ]]
             then
               # --delete : for deleting any files that are exist in source and not in S3
               aws s3 sync . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*' --delete
@@ -32,9 +32,8 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
               aws s3 cp . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*'
               echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             fi
-        """
+        '''.stripIndent())
         }
     }
   }
 }
-
