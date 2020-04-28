@@ -20,15 +20,6 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         def repoBranch = GitBranch.tokenize('/')[0]
         
         sh "echo ${repoName} ${repoBranch}"
-        sh """
-          echo 'name of the repo : \$reponame'
-          if [[ `aws s3 ls | grep \$reponame`  ]]
-            then 
-              aws s3 sync . s3://$reponame --recursive --delete
-          else
-            aws s3 mb s3://$repoName
-          fi
-        """
         }
     }
   }
