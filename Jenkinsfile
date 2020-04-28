@@ -21,6 +21,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         def repoBranch = GitBranch.tokenize('/')[1].toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
         
         sh """
+            #!/bin/bash -xe
             if [[ \$(aws s3 ls | grep ${repoName}) ]]
             then
               # --delete : for deleting any files that are exist in source and not in S3
