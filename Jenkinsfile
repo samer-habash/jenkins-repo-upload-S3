@@ -27,6 +27,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
             status=("${PIPESTATUS[@]}")
             AWSCODE=${status[0]}
             GREPCODE=${status[1]}
+            echo $AWSCODE $GREPODE
             if [ $GREPCODE -eq 0 ]
             then
                 # --delete : for deleting any files that are exist in source and not in S3
@@ -38,7 +39,6 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
                 echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             fi
         '''
-         )
         }
       }
     }
