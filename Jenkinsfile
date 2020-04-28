@@ -21,7 +21,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         def repoBranch = GitBranch.tokenize('/')[1].toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
         
         sh """
-            if [[ `aws s3 ls | grep ${repoName}` ]]
+            if [[ $(aws s3 ls | grep ${repoName}) ]]
             then
               # --delete : for deleting any files that are exist in source and not in S3
               aws s3 sync . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*' --delete
