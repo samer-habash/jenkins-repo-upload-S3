@@ -15,13 +15,12 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
   node('pod-label-cluster1') {
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
-        def repoUrl = checkout(scm).GIT_URL
-        def repoBranch = checkout(scm).GIT_BRANCH
-        sh "echo ${repoBranch}"
+        def GitBranch = checkout(scm).GIT_BRANCH
+        def repoName = GitBranch.substring(0, slug.lastIndexOf('/'))
+        def repoBranch = GitBranch.tokenize('/')[0]
+        
+        sh "echo ${repoName} ${repoBranch}"
         sh """
-          #!/bin/bash
-          set -e
-          reponame=`echo ${repoUrl} | sed -E 's|.*/(.*)(.git)|\1|'`
           echo 'name of the repo : \$reponame'
           if [[ `aws s3 ls | grep \$reponame`  ]]
             then 
