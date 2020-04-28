@@ -44,9 +44,3 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
     }
   }
 }
-
-#// Git committer email
-#GIT_COMMIT_EMAIL = sh (
-#    script: 'git --no-pager show -s --format=\'%ae\'',
-#    returnStdout: true
-#).trim()
