@@ -23,11 +23,12 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         sh """
             if [[ `aws s3 ls | grep ${repoName}`  ]]
             then
-              aws s3 sync . s3://${repoName}-${repoBranch} --recursive --exclude '.git' --delete
+              # --delete : for deleting any files that are exist in source and not in S3
+              aws s3 sync . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*' --delete
               echo "Finished creation of the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             else
               aws s3 mb s3://${repoName}-${repoBranch}
-              aws s3 cp . s3://${repoName}-${repoBranch} --recursive --exclude '.git'
+              aws s3 cp . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*'
               echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             fi
         """
