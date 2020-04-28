@@ -16,13 +16,14 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
         def repoUrl = checkout(scm).GIT_URL
-        def repoName = checkout(scm).name
-        def repositName = checkout(scm).repoName
-        sh "echo 'Repository URL is: ${repoUrl}'"
-        sh "echo 'Repository Name is: ${repoName}'"
-        sh "echo 'Repository REPONAME is: ${repositName}'"
         sh """
-            #aws ec2 create-key-pair --key-name sam12
+          repoName=`echo ${repoUrl} | sed -E $(s|.*/(.*)(.git)|\1|')
+          if [[ aws s3 ls | grep $repoName  ]]
+            then 
+              aws s3 sync . s3://$repoName --recursive --delete
+          else
+            aws s3 mb s3://$repoName
+          fi
         """
         }
     }
