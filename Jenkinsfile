@@ -15,10 +15,12 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
   node('pod-label-cluster1') {
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
-        def repoUrl = checkout(scm).GIT_URL        
-        def repoAuther = checkout(scm).GIT_AUTHOR_NAME  
+        def repoUrl = checkout(scm).GIT_URL
+        def repoName = checkout(scm).name
+        def repositName = checkout(scm).repoName
         sh "echo 'Repository URL is: ${repoUrl}'"
-        sh "echo 'Repository Name is: ${repoAuther}'"
+        sh "echo 'Repository Name is: ${repoName}'"
+        sh "echo 'Repository REPONAME is: ${repositName}'"
         sh """
             #aws ec2 create-key-pair --key-name sam12
         """
