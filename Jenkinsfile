@@ -22,7 +22,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         
         sh """
             #!/bin/bash -xe
-            if [[ ! -n \$(aws s3 ls | grep ${repoName} | awsk '{print $2}') ]]
+            if [[ ! -z \$(aws s3 ls | grep ${repoName} | awsk '{print $2}') ]]
             then
               # --delete : for deleting any files that are exist in source and not in S3
               aws s3 sync . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*' --delete
