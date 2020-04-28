@@ -17,7 +17,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
       container('aws-cli-secret') {
         def GitBranch = checkout(scm).GIT_BRANCH
         def repoName = GitBranch.substring(0, GitBranch.lastIndexOf('/'))
-        def repoBranch = GitBranch.tokenize('/')[0]
+        def repoBranch = GitBranch.tokenize('/')[1]
         
         sh "echo ${repoName} ${repoBranch}"
         }
