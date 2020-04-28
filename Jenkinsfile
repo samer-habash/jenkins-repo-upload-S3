@@ -23,10 +23,11 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
             if [[ `aws s3 ls | grep ${repoName}`  ]]
             then
               aws s3 sync . s3://${repoName}-${repoBranch} --recursive --delete
+              echo "Finished creation of the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             else
               aws s3 mb s3://${repoName}-${repoBranch}
+              echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
             fi
-            echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
         """
         }
     }
