@@ -16,16 +16,16 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
         // We can use directly as resource scmbelow, but we need to clone the repo inside the container first in order to copy it to S3 afterwards.
-        //def repositoryUrl = scm.userRemoteConfigs[0].url
+        // def repositoryUrl = scm.userRemoteConfigs[0].url
         def gitrepoURL = checkout(scm).GIT_URL
         def scmBranchName = scm.branches[0].name
         // S3 bucket names must not container underscores, spaces, uppercase letters
 		    def repoName = gitrepoURL.split('/')[-1].replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
         def repoBranch = scmBranchName.replaceAll("/","").replaceAll(/\*/,"").replaceAll("\\s+", "").replaceAll("_", "").toLowerCase()
-        S3 bucket names must not container underscores, spaces, uppercase letters
+        // S3 bucket names must not container underscores, spaces, uppercase letters
         def s3repoExist = sh(returnStdout: true, script: "aws s3 ls")
         if (s3repoExist.contains(repoName)) {
-          println("S3 Bucket for $repoName exists"),
+          println("S3 Bucket for $repoName exists")
           sh """
             # --delete : for deleting any files that are exist in source and not in S3
             aws s3 sync . s3://${repoName}-${repoBranch} --exclude '.git/*' --delete
@@ -33,7 +33,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
           """
         }
         else {
-          println("S3 Bucket $repoName does not exist"),
+          println("S3 Bucket $repoName does not exist")
           sh """
             aws s3 mb s3://${repoName}-${repoBranch}
             aws s3 cp . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*'
