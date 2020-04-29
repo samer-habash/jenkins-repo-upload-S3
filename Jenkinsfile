@@ -16,26 +16,15 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
         def repositoryUrl = scm.userRemoteConfigs[0].url
+        // S3 bucket names must not container underscores, spaces, uppercase letters
         def repoName = repositoryUrl.split('/')[-1].replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
-        //def GitBranch = checkout(scm).GIT_BRANCH
-        // def scmpath = GIT_BRANCH
-        // def repoOwner = scmpath.
-        //def repoName = scmpath.lastIndexOf('/').replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
-        //def repoNameLower = repoName.substring(0, repoName.toLowerCase())
-        sh "echo ${repoName}"
-        // echo $repoOwner
-        //echo $repoNameLower
-        // S3 bucket cannot contain : spaces, underscores, uppercase letters
-        // def repoName = GitBranch.substring(0, GitBranch.lastIndexOf('/')).toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
-        // def repoBranch = GitBranch.tokenize('/')[1].toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
-        // echo $repoName $repoBranch
-        // def S3Check = sh(returnStdout: true, script: "aws s3 ls")
-        // if (S3Check.contains(repoName)) {
-        //   println("S3 Bucket for $repoName exists")
-        // }
-        // else {
-        //   println("S3 Bucket $repoName does not exist")
-        // }
+        def s3repoExist = sh(returnStdout: true, script: "aws s3 ls")
+        if (s3repoExist.contains(repoName)) {
+          println("S3 Bucket for $repoName exists")
+        }
+        else {
+          println("S3 Bucket $repoName does not exist")
+        }
         // if (check_s3) {
         //   println "S3 Bucket exists, synchronization step activated"
         //   sh """
