@@ -18,7 +18,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         def repositoryUrl = scm.userRemoteConfigs[0].url
         def scmBranchName = scm.branches[0].name
         // S3 bucket names must not container underscores, spaces, uppercase letters
-        def repoBranch = scmBranchName.replaceAll("/","").replaceAll("*","").replaceAll("\\s+", "").replaceAll("_", "").toLowerCase()
+        def repoBranch = scmBranchName.replaceAll("/","").replaceAll("\*","").replaceAll("\\s+", "").replaceAll("_", "").toLowerCase()
         sh "echo ${repoBranch}"
         // S3 bucket names must not container underscores, spaces, uppercase letters
         def repoName = repositoryUrl.split('/')[-1].replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
