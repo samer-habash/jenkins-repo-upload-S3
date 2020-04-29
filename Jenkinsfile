@@ -21,8 +21,8 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         def repoBranch = GitBranch.tokenize('/')[1].toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
         sh label: 'Checking if S3 exists', script: '''
             #!/usr/bin/env bash
-            aws s3 ls
-            grep ${repoName}
+            #aws s3 ls
+            #grep ${repoName}
             aws s3 ls | grep ${repoName} || true
             status=("${PIPESTATUS[@]}")
             AWSCODE=${status[0]}
