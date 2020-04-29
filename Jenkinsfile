@@ -1,3 +1,5 @@
+import org.kohsuke.github.GitHub
+
 podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
     containers: [
 		containerTemplate(
