@@ -1,5 +1,3 @@
-import org.kohsuke.github.GitHub
-
 podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
     containers: [
 		containerTemplate(
@@ -17,13 +15,14 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
   node('pod-label-cluster1') {
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
+        def repoName = build.environment.get("GIT_URL").lastIndexOf('/').replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
         //def GitBranch = checkout(scm).GIT_BRANCH
-        def scmpath = scm.repositories[0].URIs[0].path
-        def repoOwner = scmpath.split('/')[0]
+        // def scmpath = GIT_BRANCH
+        // def repoOwner = scmpath.split('/')[0]
         //def repoName = scmpath.lastIndexOf('/').replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
         //def repoNameLower = repoName.substring(0, repoName.toLowerCase())
-        echo $scmpath
-        echo $repoOwner
+        echo $repoName
+        // echo $repoOwner
         //echo $repoNameLower
         // S3 bucket cannot contain : spaces, underscores, uppercase letters
         // def repoName = GitBranch.substring(0, GitBranch.lastIndexOf('/')).toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
