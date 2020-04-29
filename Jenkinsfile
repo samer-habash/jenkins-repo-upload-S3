@@ -16,10 +16,11 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
         //def GitBranch = checkout(scm).GIT_BRANCH
-        def test = path
-        def repoName = path.lastIndexOf('/').replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '')
-        def repoNameLower = repoName.substring(0, repoName.toLowerCase())
-        echo $path
+        def scmpath = scm.repositories[0].URIs[0].path
+        def repoOwner = scmpath.split('/')[0]
+        def repoName = scmpath.lastIndexOf('/').replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
+        //def repoNameLower = repoName.substring(0, repoName.toLowerCase())
+        echo $scmpath
         echo $repoName
         echo $repoNameLower
         // S3 bucket cannot contain : spaces, underscores, uppercase letters
