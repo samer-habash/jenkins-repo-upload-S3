@@ -15,7 +15,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
   node('pod-label-cluster1') {
     stage('isuuing aws commands') {
       container('aws-cli-secret') {
-        def repoName = build.environment.get("GIT_URL").lastIndexOf('/').replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
+        def repoName = scm.getUserRemoteConfigs()[0].getUrl().lastIndexOf('/').replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
         //def GitBranch = checkout(scm).GIT_BRANCH
         // def scmpath = GIT_BRANCH
         // def repoOwner = scmpath.split('/')[0]
