@@ -27,7 +27,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
           println("S3 Bucket for $repoName exists")
           sh """
             # --delete : for deleting any files that are exist in source and not in S3
-            aws s3 sync . s3://${repoName}-${repoBranch} --exclude '.git/*' --delete
+            aws s3 sync . s3://${repoName}-${repoBranch} --exclude '.git/*' --exclude '.idea/*' --delete
             echo "S3 bucet synchronization of repo ${repoName} is finished"
           """
         }
@@ -35,7 +35,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
           println("S3 Bucket $repoName does not exist")
           sh """
             aws s3 mb s3://${repoName}-${repoBranch}
-            aws s3 cp . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*'
+            aws s3 cp . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*' --exclude '.idea/*'
             echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
           """
         }
