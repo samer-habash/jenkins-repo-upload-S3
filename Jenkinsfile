@@ -19,7 +19,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         sh "echo ${repositoryUrl}"
         def repoOwner = repositoryUrl.tokenize('/')[0]
         sh "echo ${repoOwner}"        
-        def repoName = repositoryUrl.split('/')[-1])
+        def repoName = repositoryUrl.split('/')[-1]
         //def GitBranch = checkout(scm).GIT_BRANCH
         // def scmpath = GIT_BRANCH
         // def repoOwner = scmpath.
