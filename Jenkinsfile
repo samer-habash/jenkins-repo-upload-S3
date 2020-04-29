@@ -22,7 +22,6 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         // S3 bucket names must not container underscores, spaces, uppercase letters
 		    def repoName = gitrepoURL.split('/')[-1].replaceAll("\\s+", "").replaceAll("_", "").replaceAll(/\.git$/, '').toLowerCase()
         def repoBranch = scmBranchName.replaceAll("/","").replaceAll(/\*/,"").replaceAll("\\s+", "").replaceAll("_", "").toLowerCase()
-        // S3 bucket names must not container underscores, spaces, uppercase letters
         def s3repoExist = sh(returnStdout: true, script: "aws s3 ls")
         if (s3repoExist.contains(repoName)) {
           println("S3 Bucket for $repoName exists")
