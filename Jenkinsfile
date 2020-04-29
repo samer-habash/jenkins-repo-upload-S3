@@ -26,7 +26,6 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         }
         else {
           println("S3 Bucket $repoName does not exist")
-          exit 1
         }
         // if (check_s3) {
         //   println "S3 Bucket exists, synchronization step activated"
