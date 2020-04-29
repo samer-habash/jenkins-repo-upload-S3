@@ -40,7 +40,6 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         //     aws s3 cp . s3://${repoName}-${repoBranch} --recursive --exclude '.git/*'
         //     echo "Finished upload the repo to S3 Bucket Name : ${repoName}-${repoBranch}"
         //   """
-        }
       }
     }
   }
