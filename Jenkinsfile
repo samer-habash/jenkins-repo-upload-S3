@@ -21,8 +21,14 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
         def repoBranch = GitBranch.tokenize('/')[1].toLowerCase().replaceAll("\\s+", "").replaceAll("_", "")
         // def check_s3 = exec('aws', 's3', 'ls', '|', 'grep', repoName)
         script {
-          check_s3 = sh(script: 'aws s3 ls | grep ${repoName}', returnStdout: true)
-          echo ${check_s3}
+          def S3Check = sh(returnStdout: true, script: "aws s3 ls"
+          if (S3Check.contains("${repoName}")) {
+            println("S3 Bucket for ${repoName} exists")
+          }
+          else {
+            println("S3 Bucket ${repoName} does not exist")
+            exit 1
+          }
         }
         // if (check_s3) {
         //   println "S3 Bucket exists, synchronization step activated"
