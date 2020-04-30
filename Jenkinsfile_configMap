@@ -9,6 +9,7 @@ podTemplate(cloud: 'kubernetes-cluster1', label: 'pod-label-cluster1',
 		)
 	],
     volumes: [configMapVolume(configMapName: 'aws-creds-configmap', mountPath: '$HOME/.aws')
+  ]
 )
 {
   node('pod-label-cluster1') {
