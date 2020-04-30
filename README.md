@@ -4,7 +4,7 @@ Upload/Sync repo to S3 bucket upon commit change .
 
 1) Used Pull SCM for Jenkins every 2 minites, I did not use post-commit webhook since my jenkins is on my local machine.
 
-2) Used Kubernetes-Plugin with a small size 102 MB of an alpine aws-cli v2 installed.
+2) Used Kubernetes-Plugin with a small size 102 MB of an alpine aws-cli v2 installed because version 1 uses python 2.7 and it will be deprecated.
 
 3) Docker Hub image : samer1984/aws-cli-alpine:v1
 
@@ -16,6 +16,9 @@ Upload/Sync repo to S3 bucket upon commit change .
 5) Used a Jenkinsfile that will be clone the repo inside the contianer image aws-cli-alpine and then sync the content with the S3 Bucket (If the Bucket does not exist then it will add it and copy the repo)
 
 6) It was a challenge of not using the AWS SDK , or even the CloudBees credentials of AWS ,but I made it directly through kubernetes.
+
+
+7) The name of the S3 Bucket is the name of the repo + the name of the Branch , we can add the owner/author ... up to you!!
 
 NOTE: from my point of view I have the full functionality of aws-cli rather than learning the SDK functions and bla bla ....
 
